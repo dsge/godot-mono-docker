@@ -56,6 +56,8 @@ COPY --from=0 $EXPORT_TEMPLATE_DIR $EXPORT_TEMPLATE_DIR
 RUN mkdir /opt/godot
 WORKDIR /opt/godot
 COPY --from=0 /opt/godot.git/bin/godot_server.x11.opt.tools.64.mono /opt/godot
+COPY --from=0 /opt/godot.git/bin/libmonosgen-2.0.so /opt/godot
+COPY --from=0 /opt/godot.git/bin/GodotSharp /opt/godot/GodotSharp
 RUN ln -s godot_server.x11.opt.tools.64.mono godot
 
 ENV PATH /opt/godot:$PATH
