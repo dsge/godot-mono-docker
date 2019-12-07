@@ -34,6 +34,8 @@ RUN scons p=server tools=yes module_mono_enabled=yes mono_glue=no -j$(nproc)
 RUN ./bin/godot_server.x11.tools.64.mono --generate-mono-glue modules/mono/glue
 RUN scons p=server target=release_debug tools=yes module_mono_enabled=yes -j$(nproc)
 
+RUN mkdir -p $EXPORT_TEMPLATE_DIR
+
 # BUILD EXPORT TEMPLATES
 RUN scons p=x11 target=release tools=no module_mono_enabled=yes -j$(nproc) && \
     mv ./bin/data.mono.x11.64.release $EXPORT_TEMPLATE_DIR && \
@@ -46,6 +48,8 @@ FROM mono:6.4
 
 # Import these arguments from the global scope above
 ARG EXPORT_TEMPLATE_DIR
+
+RUN mkdir -p $EXPORT_TEMPLATE_DIR
 
 # Persist the built binaries and templates from the previous stage (but nothing else)
 COPY --from=0 $EXPORT_TEMPLATE_DIR $EXPORT_TEMPLATE_DIR
